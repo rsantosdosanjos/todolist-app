@@ -1,17 +1,26 @@
+# Build stage
 FROM ubuntu:latest AS build
+WORKDIR /app
 
-RUN apt-get update
-RUN apt-get install openjdk-22-jdk -y
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    openjdk-22-headless \
+    maven
 
+# Copy project files
 COPY . .
 
-RUN apt-get install maven -y
-RUN mvn clean install
+# Build the application
+RUN mvn clean package
 
+# Runtime stage
 FROM openjdk:22-jdk-slim
 
+# Expose port for the application
 EXPOSE 8080
 
-COPY --from=build /target/todolist-1.0.0.jar app.jar
+# Copy the built JAR file from the build stage
+COPY --from=build /app/target/todolist-1.0.0.jar app.jar
 
+# Set the entrypoint to run the application
 ENTRYPOINT ["java", "-jar", "app.jar"]
