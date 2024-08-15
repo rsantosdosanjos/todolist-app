@@ -35,7 +35,7 @@ public class FilterTaskAuth extends OncePerRequestFilter {
                 if (user == null || !isPasswordValid(password, user.getPassword())) {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid username or password");
                 } else {
-                    request.setAttribute("idUser", user.getId());
+                    request.setAttribute("userId", user.getId());
                     filterChain.doFilter(request, response);
                 }
             } else {

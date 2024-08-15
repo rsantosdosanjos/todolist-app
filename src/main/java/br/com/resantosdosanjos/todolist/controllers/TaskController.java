@@ -20,7 +20,7 @@ public class TaskController {
 
     @PostMapping()
     public ResponseEntity create(@RequestBody TaskModel model, HttpServletRequest request) {
-        model.setUserId((UUID) request.getAttribute("idUser"));
+        model.setUserId((UUID) request.getAttribute("userId"));
 
         var now = LocalDateTime.now();
 
@@ -37,7 +37,7 @@ public class TaskController {
 
     @GetMapping()
     public ResponseEntity list(HttpServletRequest request) {
-        var tasks = taskRepository.findByIdUser((UUID) request.getAttribute("idUser"));
+        var tasks = taskRepository.findByIdUser((UUID) request.getAttribute("userId"));
         return ResponseUtil.ok(tasks);
     }
 
@@ -50,7 +50,7 @@ public class TaskController {
             return ResponseUtil.notFound("Task not found");
         }
 
-        if (!task.getUserId().equals(request.getAttribute("idUser"))) {
+        if (!task.getUserId().equals(request.getAttribute("userId"))) {
             return ResponseUtil.badRequest("Task does not belong to the user");
         }
 
