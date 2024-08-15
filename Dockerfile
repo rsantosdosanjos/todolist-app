@@ -5,7 +5,7 @@ WORKDIR /app
 # Install dependencies (with updated repository if needed)
 RUN apt-get update && \
     apt-get install -y \
-    openjdk-22-jdk-headless \
+    openjdk-17-jdk-headless \
     maven
 
 # Copy project files
@@ -15,7 +15,7 @@ COPY . .
 RUN mvn clean package
 
 # Runtime stage
-FROM openjdk:22-jdk
+FROM openjdk:17-jdk-slim
 
 # Expose port for the application
 EXPOSE 8080
