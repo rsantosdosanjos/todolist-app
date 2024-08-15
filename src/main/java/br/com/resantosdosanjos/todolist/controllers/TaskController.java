@@ -37,7 +37,7 @@ public class TaskController {
 
     @GetMapping()
     public ResponseEntity list(HttpServletRequest request) {
-        var tasks = taskRepository.findByIdUser((UUID) request.getAttribute("userId"));
+        var tasks = taskRepository.findByUserId((UUID) request.getAttribute("userId"));
         return ResponseUtil.ok(tasks);
     }
 
